@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Марат Мусин](https://up.htmlacademy.ru/ecmascript/10/user/1224239).
-* Наставник: `Неизвестно`.
+* Наставник: `Александр Бабченко`(https://htmlacademy.ru/profile/babtshe).
 
 ---
 
