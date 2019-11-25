@@ -1,6 +1,6 @@
 'use strict';
 
-const FILMS_COUNT = {
+const TaskCounts = {
   ALL: 5,
   EXTRA: 2,
 };
@@ -275,16 +275,16 @@ render(siteMainElement, getSortTemplate());
 render(siteMainElement, getFilmsListTemplate());
 
 const filmsListElement = document.querySelector(`.films-list .films-list__container`);
-for (let i = 0; i < FILMS_COUNT.ALL; i++) {
+for (let i = 0; i < TaskCounts.ALL; i++) {
   render(filmsListElement, getFilmCardTemplate());
 }
 render(siteMainElement, getLoadMoreButton());
 
 const extraFilmsElements = document.querySelectorAll(`.films-list--extra`);
 extraFilmsElements.forEach(
-    (el) => {
-      const extraFilmContainer = el.querySelector(`.films-list__container`);
-      for (let i = 0; i < FILMS_COUNT.EXTRA; i++) {
+    (elements) => {
+      const extraFilmContainer = elements.querySelector(`.films-list__container`);
+      for (let i = 0; i < TaskCounts.EXTRA; i++) {
         render(extraFilmContainer, getFilmCardTemplate());
       }
     }
