@@ -280,14 +280,14 @@ for (let i = 0; i < FILMS_COUNT.ALL; i++) {
 }
 render(siteMainElement, getLoadMoreButton());
 
-const extraFilmsElements = document.querySelectorAll('.films-list--extra');
+const extraFilmsElements = document.querySelectorAll(`.films-list--extra`);
 extraFilmsElements.forEach(
-  el => {
-    const extraFilmContainer = el.querySelector('.films-list__container');
-    for (let i = 0; i < FILMS_COUNT.EXTRA; i++) {
-      render(extraFilmContainer, getFilmCardTemplate());
+    (el) => {
+      const extraFilmContainer = el.querySelector(`.films-list__container`);
+      for (let i = 0; i < FILMS_COUNT.EXTRA; i++) {
+        render(extraFilmContainer, getFilmCardTemplate());
+      }
     }
-  }
 );
 
 render(siteMainElement, getFilmDetailTemplate());
