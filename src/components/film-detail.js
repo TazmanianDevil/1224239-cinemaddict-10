@@ -9,7 +9,7 @@ export const getFilmDetailTemplate = (film) => {
   const {
     title,
     originalTitle,
-    poster,
+    posterUrl,
     description,
     rating,
     releaseDate,
@@ -23,8 +23,8 @@ export const getFilmDetailTemplate = (film) => {
     comments,
   } = film;
 
-  const writersText = writers.join(`,`);
-  const actorsText = actors.join(`,`);
+  const writersText = writers.join(`, `);
+  const actorsText = actors.join(`, `);
   const genresTemplate = createGenresTemplate(genres);
   const commentsTemplate = createCommentsTemplate(comments);
   const releaseDateLabel = formatDate(releaseDate);
@@ -38,7 +38,7 @@ export const getFilmDetailTemplate = (film) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${poster}" alt="">
+              <img class="film-details__poster-img" src="${posterUrl}" alt="">
 
               <p class="film-details__age">${ageLimit}</p>
             </div>

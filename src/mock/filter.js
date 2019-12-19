@@ -1,4 +1,8 @@
-import {FILTER_NAMES} from "./const";
+export const FILTER_NAMES = [
+  `watchlist`,
+  `history`,
+  `favorites`,
+];
 
 const getCount = (name, filmCards) => {
   switch (name) {

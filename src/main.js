@@ -10,7 +10,7 @@ import {getRandomIntegerNumber} from "./utils";
 import {HIDDEN_ATTRIBUTE} from "./const";
 import {generateFilms} from "./mock/film";
 
-const TaskCounts = {
+const FilmsCounts = {
   ALL: 15,
   EXTRA: 2,
 };
@@ -21,14 +21,14 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 const getTopRatedFilms = (films) => films
   .filter((film) => film.rating > 0)
   .sort((filmA, filmB) => filmB.rating - filmA.rating)
-  .slice(0, TaskCounts.EXTRA);
+  .slice(0, FilmsCounts.EXTRA);
 
 const getMostCommentedFilms = (films) => films
   .filter((film) => film.comments.length > 0)
   .sort((filmA, filmB) => filmB.comments.length - filmA.comments.length)
-  .slice(0, TaskCounts.EXTRA);
+  .slice(0, FilmsCounts.EXTRA);
 
-const filmCards = generateFilms(TaskCounts.ALL);
+const filmCards = generateFilms(FilmsCounts.ALL);
 const topRatedFilms = getTopRatedFilms(filmCards);
 const mostCommentedFilms = getMostCommentedFilms(filmCards);
 const filters = generateFilters(filmCards);
@@ -55,7 +55,7 @@ render(siteMainElement, getLoadMoreButton());
 
 const topRatedSectionElement = document.querySelector(`.top-rated-section`);
 const topRatedContainerElement = document.querySelector(`.top-rated-list-container`);
-if (topRatedFilms.length === 0) {
+if (!topRatedFilms.length) {
   topRatedSectionElement.classList.add(HIDDEN_ATTRIBUTE);
 } else {
   topRatedFilms.forEach((filmCard) => {
@@ -65,7 +65,7 @@ if (topRatedFilms.length === 0) {
 
 const mostCommentedSectionElement = document.querySelector(`.most-commented-section`);
 const mostCommentedContainerElement = document.querySelector(`.most-commented-list-container`);
-if (mostCommentedFilms.length === 0) {
+if (!mostCommentedFilms.length) {
   mostCommentedSectionElement.classList.add(HIDDEN_ATTRIBUTE);
 } else {
   mostCommentedFilms.forEach((filmCard) => {

@@ -1,7 +1,7 @@
 const createSingleCommentTemplate = (comment) => {
   const {text, emoji, author, date} = comment;
 
-  const dateText = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
+  const dateText = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
 
   return (
     `<li class="film-details__comment">
