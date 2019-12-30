@@ -1,4 +1,5 @@
 import {COMMENT_AUTHOR_NAMES, COMMENT_EMOJI, COMMENT_TEXT, MAX_COMMENTS_COUNT, MIN_COMMENTS_COUNT} from "./mock/mock";
+import {RenderPosition} from "./const";
 
 export const getRandomArrayItem = (array) => {
   const index = Math.floor(array.length * Math.random());
@@ -67,4 +68,22 @@ const createRandomComment = () => {
     author: getRandomArrayItem(COMMENT_AUTHOR_NAMES),
     date: getRandomDate(),
   };
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const render = (container, element, place = RenderPosition.BEFORE_END) => {
+  switch (place) {
+    case RenderPosition.AFTER_BEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFORE_END:
+      container.append(element);
+      break;
+  }
 };

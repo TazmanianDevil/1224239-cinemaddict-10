@@ -1,11 +1,11 @@
-import {createCommentsTemplate} from "./comments";
-import {formatDate} from "../utils";
+import Comments from "./comments";
+import {createElement, formatDate} from "../utils";
 
 const createGenresTemplate = (genres) => genres.map((genre) => (
   `<span class="film-details__genre">${genre}</span>`
 )).join(``);
 
-export const getFilmDetailTemplate = (film) => {
+const getFilmDetailTemplate = (film) => {
   const {
     title,
     originalTitle,
@@ -26,7 +26,7 @@ export const getFilmDetailTemplate = (film) => {
   const writersText = writers.join(`, `);
   const actorsText = actors.join(`, `);
   const genresTemplate = createGenresTemplate(genres);
-  const commentsTemplate = createCommentsTemplate(comments);
+  const commentsTemplate = new Comments(comments).getElement();
   const releaseDateLabel = formatDate(releaseDate);
 
   return (
@@ -147,3 +147,26 @@ export const getFilmDetailTemplate = (film) => {
   );
 };
 
+
+export default class FilmDetail {
+  constructor(film) {
+    this.element = null;
+    this.film = film;
+  }
+
+  getTemplate() {
+    return getFilmDetailTemplate(this.film);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}

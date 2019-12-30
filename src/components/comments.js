@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createSingleCommentTemplate = (comment) => {
   const {text, emoji, author, date} = comment;
 
@@ -20,7 +22,7 @@ const createSingleCommentTemplate = (comment) => {
   );
 };
 
-export const createCommentsTemplate = (comments) => {
+const getCommentsTemplate = (comments) => {
   const commentsMarkup = comments.map((comment) => createSingleCommentTemplate(comment)).join(``);
 
   return (
@@ -29,3 +31,27 @@ export const createCommentsTemplate = (comments) => {
     </ul>`
   );
 };
+
+
+export default class Comments {
+  constructor(comments) {
+    this.element = null;
+    this.comments = comments;
+  }
+
+  getTemplate() {
+    return getCommentsTemplate(this.comments);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}

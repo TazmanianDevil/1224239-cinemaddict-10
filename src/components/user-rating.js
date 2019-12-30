@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const getProfileRating = (filmsCount) => {
   if (filmsCount > 50) {
     return `Movie expert`;
@@ -11,7 +13,7 @@ const getProfileRating = (filmsCount) => {
   return `Movie novice`;
 };
 
-export const getUserRatingTemplate = (filmsCount) => {
+const getUserRatingTemplate = (filmsCount) => {
   const rating = getProfileRating(filmsCount);
   return (
     `<section class="header__profile profile">
@@ -20,3 +22,27 @@ export const getUserRatingTemplate = (filmsCount) => {
     </section>`
   );
 };
+
+
+export default class UserRating {
+  constructor(filmsCount) {
+    this.element = null;
+    this.filmsCount = filmsCount;
+  }
+
+  getTemplate() {
+    return getUserRatingTemplate(this.filmsCount);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}
