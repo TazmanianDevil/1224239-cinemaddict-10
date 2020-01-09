@@ -1,6 +1,6 @@
 import {createElement} from "../utils";
 
-const getLoadMoreButton = () => {
+const getLoadMoreButtonTemplate = () => {
   return (
     `<button class="films-list__show-more">Show more</button>`
   );
@@ -12,7 +12,7 @@ export default class LoadMoreButton {
   }
 
   getTemplate() {
-    return getLoadMoreButton();
+    return getLoadMoreButtonTemplate();
   }
 
   getElement() {
