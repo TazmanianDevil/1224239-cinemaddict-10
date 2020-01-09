@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createSingleFilterTemplate = (filter) => {
   const {name, count} = filter;
 
@@ -9,7 +11,7 @@ const createSingleFilterTemplate = (filter) => {
   );
 };
 
-export const getMainMenuTemplate = (filters) => {
+const getMainMenuTemplate = (filters) => {
   const filtersMarkup = filters.reduce((result, filter) => {
     return result + createSingleFilterTemplate(filter);
   }, ``);
@@ -22,3 +24,26 @@ export const getMainMenuTemplate = (filters) => {
     </nav>`
   );
 };
+
+export default class MainMenu {
+  constructor(filters) {
+    this.element = null;
+    this.filters = filters;
+  }
+
+  getTemplate() {
+    return getMainMenuTemplate(this.filters);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}
