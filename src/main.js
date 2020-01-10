@@ -35,11 +35,11 @@ const renderFilm = (film, container) => {
     const isEscapeKeyDown = event.key === `Escape` || event.key === `Esc`;
     if (isEscapeKeyDown) {
       closeFilmDetail();
-      document.removeEventListener(`keydown`, onEscapeKeyDown);
     }
   };
 
   const closeFilmDetail = () => {
+    document.removeEventListener(`keydown`, onEscapeKeyDown);
     filmDetailComponent.getElement().remove();
   };
 
@@ -51,7 +51,7 @@ const renderFilm = (film, container) => {
   const filmCardComponent = new FilmCardComponent(film);
   const filmDetailComponent = new FilmDetailComponent(film);
 
-  document.addEventListener(`click`, (event) => {
+  filmCardComponent.getElement().addEventListener(`click`, (event) => {
     if (FILM_CARD_ACTIVE_ELEMENTS.some((element) => event.target.classList.contains(element))) {
       showFilmDetail();
     }
@@ -59,7 +59,7 @@ const renderFilm = (film, container) => {
   const closeButtonElementElement = filmDetailComponent.getElement().querySelector(`.film-details__close-btn`);
 
   closeButtonElementElement.addEventListener(`click`, () => {
-    filmDetailComponent.getElement().remove();
+    closeFilmDetail();
   });
 
   render(container, filmCardComponent.getElement());
