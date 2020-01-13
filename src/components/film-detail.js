@@ -1,5 +1,6 @@
 import Comments from "./comments";
-import {createElement, formatDate} from "../utils";
+import {formatDate} from "../utils";
+import AbstractComponent from "./abstract-component";
 
 const createGenresTemplate = (genres) => genres.map((genre) => (
   `<span class="film-details__genre">${genre}</span>`
@@ -148,25 +149,19 @@ const getFilmDetailTemplate = (film) => {
 };
 
 
-export default class FilmDetail {
+export default class FilmDetail extends AbstractComponent {
   constructor(film) {
-    this.element = null;
-    this.film = film;
+    super();
+    this._film = film;
   }
 
   getTemplate() {
-    return getFilmDetailTemplate(this.film);
+    return getFilmDetailTemplate(this._film);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
+  setCloseButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
   }
 
-  removeElement() {
-    this.element = null;
-  }
 }
