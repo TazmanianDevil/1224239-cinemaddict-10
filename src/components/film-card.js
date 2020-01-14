@@ -1,5 +1,7 @@
 import AbstractComponent from "./abstract-component";
 
+export const FILM_CARD_ACTIVE_ELEMENTS = [`film-card__poster`, `film-card__title`, `film-card__comments`];
+
 const getFilmCardTemplate = (film) => {
   const {
     title,

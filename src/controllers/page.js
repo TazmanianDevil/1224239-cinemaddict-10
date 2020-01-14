@@ -5,6 +5,7 @@ import NoFilms from "../components/no-films";
 import FilmListComponent from "../components/films-list";
 import LoadMoreButtonComponent from "../components/load-more-button";
 import {HIDDEN_ATTRIBUTE} from "../const";
+import {FILM_CARD_ACTIVE_ELEMENTS} from "../components/film-card";
 
 export const FilmsCounts = {
   ALL: 15,
@@ -12,8 +13,6 @@ export const FilmsCounts = {
 };
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
-
-const FILM_CARD_ACTIVE_ELEMENTS = [`film-card__poster`, `film-card__title`, `film-card__comments`];
 
 const renderFilm = (film, container) => {
 
@@ -42,9 +41,7 @@ const renderFilm = (film, container) => {
       showFilmDetail();
     }
   });
-  filmDetailComponent.setCloseButtonClickHandler(() => {
-    closeFilmDetail();
-  });
+  filmDetailComponent.setCloseButtonClickHandler(closeFilmDetail);
 
   render(container, filmCardComponent);
 };
