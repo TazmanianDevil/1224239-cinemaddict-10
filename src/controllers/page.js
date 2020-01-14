@@ -1,7 +1,7 @@
 import {remove, render} from "../utils/render";
 import FilmCardComponent from "../components/film-card";
 import FilmDetailComponent from "../components/film-detail";
-import NoFilms from "../components/no-films";
+import NoFilmsComponent from "../components/no-films";
 import FilmListComponent from "../components/films-list";
 import LoadMoreButtonComponent from "../components/load-more-button";
 import {HIDDEN_ATTRIBUTE} from "../const";
@@ -60,15 +60,16 @@ export default class PageController {
   constructor(container) {
     this._container = container;
 
-    this._noFilmsComponent = new FilmListComponent();
+    this._noFilmsComponent = new NoFilmsComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._filmListComponent = new FilmListComponent();
   }
 
   render(films) {
     if (!films.length) {
-      render(this._container, new NoFilms());
-    } else {
       render(this._container, this._noFilmsComponent);
+    } else {
+      render(this._container, this._filmListComponent);
       const filmsListElement = document.querySelector(`.films-list .films-list__container`);
 
       let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
