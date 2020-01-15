@@ -1,7 +1,5 @@
 import AbstractComponent from "./abstract-component";
 
-export const FILM_CARD_ACTIVE_ELEMENTS = [`film-card__poster`, `film-card__title`, `film-card__comments`];
-
 const getFilmCardTemplate = (film) => {
   const {
     title,
@@ -49,7 +47,11 @@ export default class FilmCard extends AbstractComponent {
   }
 
   setCardClickHandler(handler) {
-    this.getElement().addEventListener(`click`, handler);
+    const activeElements = this.getElement().querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`);
+    activeElements
+      .forEach((element) => {
+        element.addEventListener(`click`, handler);
+      });
   }
 
 }

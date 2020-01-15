@@ -5,7 +5,6 @@ import NoFilmsComponent from "../components/no-films";
 import FilmListComponent from "../components/films-list";
 import LoadMoreButtonComponent from "../components/load-more-button";
 import {HIDDEN_ATTRIBUTE} from "../const";
-import {FILM_CARD_ACTIVE_ELEMENTS} from "../components/film-card";
 
 export const FilmsCounts = {
   ALL: 15,
@@ -36,11 +35,7 @@ const renderFilm = (film, container) => {
   const filmCardComponent = new FilmCardComponent(film);
   const filmDetailComponent = new FilmDetailComponent(film);
 
-  filmCardComponent.setCardClickHandler((event) => {
-    if (FILM_CARD_ACTIVE_ELEMENTS.some((element) => event.target.classList.contains(element))) {
-      showFilmDetail();
-    }
-  });
+  filmCardComponent.setCardClickHandler(showFilmDetail);
   filmDetailComponent.setCloseButtonClickHandler(closeFilmDetail);
 
   render(container, filmCardComponent);
