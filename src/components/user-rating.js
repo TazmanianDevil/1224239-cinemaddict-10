@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractComponent from "./abstract-component";
 
 const getProfileRating = (filmsCount) => {
   if (filmsCount > 50) {
@@ -24,25 +24,14 @@ const getUserRatingTemplate = (filmsCount) => {
 };
 
 
-export default class UserRating {
+export default class UserRating extends AbstractComponent {
   constructor(filmsCount) {
-    this.element = null;
-    this.filmsCount = filmsCount;
+    super();
+    this._filmsCount = filmsCount;
   }
 
   getTemplate() {
-    return getUserRatingTemplate(this.filmsCount);
+    return getUserRatingTemplate(this._filmsCount);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }
