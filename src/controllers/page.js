@@ -130,10 +130,10 @@ export default class PageController {
 
       switch (sortType) {
         case SortType.DATE:
-          sortedFilms = films.slice().sort((a, b) => b.releaseDate - a.releaseDate);
+          sortedFilms = films.slice(0, showingFilmsCount).sort((a, b) => b.releaseDate - a.releaseDate);
           break;
         case SortType.RATING:
-          sortedFilms = films.slice().sort((a, b) => b.rating - a.rating);
+          sortedFilms = films.slice(0, showingFilmsCount).sort((a, b) => b.rating - a.rating);
           break;
         case SortType.DEFAULT:
           sortedFilms = films.slice(0, showingFilmsCount);
@@ -143,11 +143,6 @@ export default class PageController {
 
       renderFilms(filmsListElement, sortedFilms);
 
-      if (SortType.DEFAULT === sortType) {
-        renderLoadMoreButton();
-      } else {
-        remove(this._loadMoreButtonComponent);
-      }
     });
   }
 
