@@ -26,6 +26,7 @@ export default class Sort extends AbstractComponent {
   constructor() {
     super();
     this._currentSortType = SortType.DEFAULT;
+    this._activeSortElement = null;
   }
 
   getTemplate() {
@@ -51,12 +52,12 @@ export default class Sort extends AbstractComponent {
     });
 
     const changeActiveSortButton = (event) => {
-      if (this._element === null) {
-        return;
+      if (this._activeSortElement === null) {
+        this._activeSortElement = this._element.querySelector(`.${ACTIVE_SORT_BUTTON_CLASS}`);
       }
-      const activeSortButton = this._element.querySelector(`.${ACTIVE_SORT_BUTTON_CLASS}`);
-      activeSortButton.classList.remove(ACTIVE_SORT_BUTTON_CLASS);
+      this._activeSortElement.classList.remove(ACTIVE_SORT_BUTTON_CLASS);
       event.target.classList.add(ACTIVE_SORT_BUTTON_CLASS);
+      this._activeSortElement = event.target;
     };
   }
 
