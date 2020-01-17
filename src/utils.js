@@ -1,5 +1,4 @@
 import {COMMENT_AUTHOR_NAMES, COMMENT_EMOJI, COMMENT_TEXT, MAX_COMMENTS_COUNT, MIN_COMMENTS_COUNT} from "./mock/mock";
-import {RenderPosition} from "./const";
 
 export const getRandomArrayItem = (array) => {
   const index = Math.floor(array.length * Math.random());
