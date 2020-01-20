@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
 
 const getFilmCardTemplate = (film) => {
   const {
@@ -36,7 +36,7 @@ const getFilmCardTemplate = (film) => {
 };
 
 
-export default class FilmCard extends AbstractComponent {
+export default class FilmCard extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
@@ -54,4 +54,33 @@ export default class FilmCard extends AbstractComponent {
       });
   }
 
+  setWatchlistButtonClickHandler(handler) {
+    // eslint-disable-next-line no-console
+    console.log(`watchlist`);
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    // eslint-disable-next-line no-console
+    console.log(`watched`);
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    // eslint-disable-next-line no-console
+    console.log(`favorites`);
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
+  }
+  // TODO
+  recoveryListeners() {
+    // this._subscribeOnEvents();
+  }
+
+  rerender(oldComponent, film) {
+    this._film = film;
+    super.rerender(oldComponent);
+  }
 }

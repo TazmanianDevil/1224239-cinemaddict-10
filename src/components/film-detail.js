@@ -1,8 +1,9 @@
 import Comments from "./comments";
 import {formatDate} from "../utils";
 import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
 
-const createGenresTemplate = (genres) => genres.map((genre) => (
+const getGenresTemplate = (genres) => genres.map((genre) => (
   `<span class="film-details__genre">${genre}</span>`
 )).join(``);
 
@@ -26,7 +27,7 @@ const getFilmDetailTemplate = (film) => {
 
   const writersText = writers.join(`, `);
   const actorsText = actors.join(`, `);
-  const genresTemplate = createGenresTemplate(genres);
+  const genresTemplate = getGenresTemplate(genres);
   const commentsTemplate = new Comments(comments).getElement();
   const releaseDateLabel = formatDate(releaseDate);
 
@@ -149,10 +150,16 @@ const getFilmDetailTemplate = (film) => {
 };
 
 
-export default class FilmDetail extends AbstractComponent {
+export default class FilmDetail extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._subscribeOnEvents();
+    this._emoji = null;
+    this._closeBtnClickHandler = null;
+    this._watchlistInputClickHandler = null;
+    this._watchedInputClickHandler = null;
+    this._favoriteInputClickHandler = null;
   }
 
   getTemplate() {
@@ -162,6 +169,52 @@ export default class FilmDetail extends AbstractComponent {
   setCloseButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
+  }
+
+  setWatchlistInputClickHandler(handler) {
+    this._watchlistInputClickHandler = handler;
+    this.getElement().querySelector(`#watchlist`).addEventListener(`click`, handler);
+  }
+
+  setWatchedInputClickHandler(handler) {
+    this._watchedInputClickHandler = handler;
+    this.getElement().querySelector(`#watched`).addEventListener(`click`, handler);
+  }
+
+  setFavoritesInputClickHandler(handler) {
+    this._favoriteInputClickHandler = handler;
+    this.getElement().querySelector(`#favorite`).addEventListener(`click`, handler);
+  }
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  rerender(oldComponent, film) {
+    this._film = film;
+    super.rerender(oldComponent);
+  }
+
+  _onEmojiClick() {
+    /*
+    const emojiList = this.getElement().querySelector(`.film-details__emoji-list`).querySelectorAll(`img`);
+    emojiList.forEach((it) => it.addEventListener(`click`, () => {
+      const oldEmoji = this._film.comments_emoji;
+      this._emoji = it.getAttribute(`src`);
+      if (this._emoji !== oldEmoji) {
+        this.rerender(this, this._data);
+      }
+    }));
+    */
+  }
+
+  _subscribeOnEvents() {
+    this.getElement().querySelector(`#watchlist`).addEventListener(`click`, this._watchlistInputClickHandler);
+    this.getElement().querySelector(`#watched`).addEventListener(`click`, this._watchedInputClickHandler);
+    this.getElement().querySelector(`#favorite`).addEventListener(`click`, this._favoriteInputClickHandler);
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
+
+    this._onEmojiClick();
   }
 
 }
