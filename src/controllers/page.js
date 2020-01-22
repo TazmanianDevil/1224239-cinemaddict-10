@@ -75,7 +75,7 @@ export default class PageController {
     if (!topRatedFilms.length) {
       topRatedSectionElement.classList.add(HIDDEN_ATTRIBUTE);
     } else {
-      renderFilms(topRatedContainerElement, topRatedFilms);
+      renderFilms(topRatedContainerElement, topRatedFilms, this._onDataChange, this._onViewChange);
     }
 
     const mostCommentedSectionElement = document.querySelector(`.most-commented-section`);
@@ -84,7 +84,7 @@ export default class PageController {
     if (!mostCommentedFilms.length) {
       mostCommentedSectionElement.classList.add(HIDDEN_ATTRIBUTE);
     } else {
-      renderFilms(mostCommentedContainerElement, mostCommentedFilms);
+      renderFilms(mostCommentedContainerElement, mostCommentedFilms, this._onDataChange, this._onViewChange);
     }
   }
 
@@ -130,7 +130,7 @@ export default class PageController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    const index = this._films.findIndex((element) => element === oldData);
+    let index = this._films.findIndex((element) => element === oldData);
 
     if (index === -1) {
       return;

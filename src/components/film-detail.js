@@ -1,11 +1,60 @@
 import Comments from "./comments";
 import {formatDate} from "../utils";
-import AbstractComponent from "./abstract-component";
 import AbstractSmartComponent from "./abstract-smart-component";
 
 const getGenresTemplate = (genres) => genres.map((genre) => (
   `<span class="film-details__genre">${genre}</span>`
 )).join(``);
+
+const createFilmRatingTemplate = (posterUrl, title) => {
+  return (`<section class="film-details__user-rating-wrap">
+        <div class="film-details__user-rating-controls">
+          <button class="film-details__watched-reset" type="button">Undo</button>
+        </div>
+
+        <div class="film-details__user-score">
+          <div class="film-details__user-rating-poster">
+            <img src="${posterUrl}" alt="film-poster" class="film-details__user-rating-img">
+          </div>
+
+          <section class="film-details__user-rating-inner">
+            <h3 class="film-details__user-rating-title">${title}</h3>
+
+            <p class="film-details__user-rating-feelings">How you feel it?</p>
+
+            <div class="film-details__user-rating-score">
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="1" id="rating-1">
+              <label class="film-details__user-rating-label" for="rating-1">1</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="2" id="rating-2">
+              <label class="film-details__user-rating-label" for="rating-2">2</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="3" id="rating-3">
+              <label class="film-details__user-rating-label" for="rating-3">3</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="4" id="rating-4">
+              <label class="film-details__user-rating-label" for="rating-4">4</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="5" id="rating-5">
+              <label class="film-details__user-rating-label" for="rating-5">5</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="6" id="rating-6">
+              <label class="film-details__user-rating-label" for="rating-6">6</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="7" id="rating-7">
+              <label class="film-details__user-rating-label" for="rating-7">7</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="8" id="rating-8">
+              <label class="film-details__user-rating-label" for="rating-8">8</label>
+
+              <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="9" id="rating-9" checked>
+              <label class="film-details__user-rating-label" for="rating-9">9</label>
+
+            </div>
+          </section>
+        </div>
+      </section>`);
+};
 
 const getFilmDetailTemplate = (film) => {
   const {
@@ -23,12 +72,15 @@ const getFilmDetailTemplate = (film) => {
     writers,
     actors,
     comments,
+    isInWatchlist,
+    isWatched,
+    isFavorite,
   } = film;
 
   const writersText = writers.join(`, `);
   const actorsText = actors.join(`, `);
   const genresTemplate = getGenresTemplate(genres);
-  const commentsTemplate = new Comments(comments).getElement();
+  const commentsTemplate = new Comments(comments).getTemplate();
   const releaseDateLabel = formatDate(releaseDate);
 
   return (
@@ -96,16 +148,18 @@ const getFilmDetailTemplate = (film) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isInWatchlist ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
+
+        <div class="form-details__middle-container">${isWatched ? createFilmRatingTemplate(posterUrl, title) : ``}</div>
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
@@ -196,7 +250,6 @@ export default class FilmDetail extends AbstractSmartComponent {
   }
 
   _onEmojiClick() {
-    /*
     const emojiList = this.getElement().querySelector(`.film-details__emoji-list`).querySelectorAll(`img`);
     emojiList.forEach((it) => it.addEventListener(`click`, () => {
       const oldEmoji = this._film.comments_emoji;
@@ -205,7 +258,6 @@ export default class FilmDetail extends AbstractSmartComponent {
         this.rerender(this, this._data);
       }
     }));
-    */
   }
 
   _subscribeOnEvents() {

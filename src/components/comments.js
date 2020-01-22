@@ -23,7 +23,7 @@ const createSingleCommentTemplate = (comment) => {
 };
 
 const getCommentsTemplate = (comments) => {
-  const commentsMarkup = comments.map((comment) => createSingleCommentTemplate(comment)).join(``);
+  const commentsMarkup = comments.map((comment) => createSingleCommentTemplate(comment)).join(`\n`);
 
   return (
     `<ul class="film-details__comments-list">
