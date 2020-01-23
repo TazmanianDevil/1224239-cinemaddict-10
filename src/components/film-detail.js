@@ -56,7 +56,7 @@ const createFilmRatingTemplate = (posterUrl, title) => {
       </section>`);
 };
 
-const getFilmDetailTemplate = (film) => {
+const getFilmDetailTemplate = (film, option = {}) => {
   const {
     title,
     originalTitle,
@@ -76,7 +76,10 @@ const getFilmDetailTemplate = (film) => {
     isWatched,
     isFavorite,
   } = film;
-
+  const {
+    isEmojiAdding,
+    currentEmoji,
+  } = option;
   const writersText = writers.join(`, `);
   const actorsText = actors.join(`, `);
   const genresTemplate = getGenresTemplate(genres);
@@ -168,7 +171,9 @@ const getFilmDetailTemplate = (film) => {
             ${commentsTemplate}
 
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">
+                ${isEmojiAdding ? `<img src="${currentEmoji}" width="55" height="55" alt="emoji">` : ``}
+</div>
 
               <label class="film-details__comment-label">
                 <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -208,16 +213,28 @@ export default class FilmDetail extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._rating = this._film.rating;
     this._subscribeOnEvents();
-    this._emoji = null;
     this._closeBtnClickHandler = null;
     this._watchlistInputClickHandler = null;
     this._watchedInputClickHandler = null;
     this._favoriteInputClickHandler = null;
+    this._isEmojiAdding = false;
+    this._currentEmoji = `#`;
+    this._emojiMap = {
+      SMILE: `smile.png`,
+      SLEEPING: `sleeping.png`,
+      GPUKE: `puke.png`,
+      ANGRY: `angry.png`,
+    };
   }
 
   getTemplate() {
-    return getFilmDetailTemplate(this._film);
+    return getFilmDetailTemplate(this._film, {
+      isEmojiAdding: this._isEmojiAdding,
+      currentEmoji: this._currentEmoji,
+
+    });
   }
 
   setCloseButtonClickHandler(handler) {
@@ -250,14 +267,13 @@ export default class FilmDetail extends AbstractSmartComponent {
   }
 
   _onEmojiClick() {
-    const emojiList = this.getElement().querySelector(`.film-details__emoji-list`).querySelectorAll(`img`);
-    emojiList.forEach((it) => it.addEventListener(`click`, () => {
-      const oldEmoji = this._film.comments_emoji;
-      this._emoji = it.getAttribute(`src`);
-      if (this._emoji !== oldEmoji) {
-        this.rerender(this, this._data);
+    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`change`, (evt) => {
+      if (evt.target.tagName === `INPUT`) {
+        this._isEmojiAdding = true;
+        this._currentEmoji = `./images/emoji/${this._emojiMap[evt.target.id.slice(6).toUpperCase()]}`;
+        this.rerender(this, this._film);
       }
-    }));
+    });
   }
 
   _subscribeOnEvents() {
@@ -265,8 +281,20 @@ export default class FilmDetail extends AbstractSmartComponent {
     this.getElement().querySelector(`#watched`).addEventListener(`click`, this._watchedInputClickHandler);
     this.getElement().querySelector(`#favorite`).addEventListener(`click`, this._favoriteInputClickHandler);
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
-
+    this._ratingClickHandler();
     this._onEmojiClick();
   }
 
+  _needSetAnswer() {
+    return this._film.isWatched && !this._rating;
+  }
+
+  _ratingClickHandler() {
+    if (this._needSetAnswer()) {
+      this._element.querySelector(`.film-details__user-rating-score`).addEventListener(`change`, (evt) => {
+        this._rating = evt.target.value;
+        this.rerender();
+      });
+    }
+  }
 }

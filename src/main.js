@@ -4,7 +4,7 @@ import {generateFilms} from "./mock/film";
 import UserRatingComponent from "./components/user-rating";
 import MainMenuComponent from "./components/main-menu";
 import {render} from "./utils/render";
-import PageController, {FilmsCounts} from "./controllers/page";
+import PageController, {FilmsCounts} from "./controllers/page-controller";
 
 
 const filmCards = generateFilms(FilmsCounts.ALL);

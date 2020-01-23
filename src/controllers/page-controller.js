@@ -4,7 +4,7 @@ import FilmListComponent from "../components/films-list";
 import LoadMoreButtonComponent from "../components/load-more-button";
 import {HIDDEN_ATTRIBUTE} from "../const";
 import SortComponent, {SortType} from "../components/sort";
-import MovieController from "./movie";
+import MovieController from "./movie-controller";
 
 export const FilmsCounts = {
   ALL: 15,
